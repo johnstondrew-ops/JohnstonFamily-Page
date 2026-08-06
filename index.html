@@ -33,11 +33,12 @@ body{font-family:"Georgia",serif;background:var(--cream);color:var(--text);min-h
 .dogs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:8px}
 .dog-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;transition:transform .2s}
 .dog-card:hover{transform:translateY(-3px)}
-.dog-photo{width:100%;aspect-ratio:1;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative;overflow:hidden}
-.dog-photo img{width:100%;height:100%;object-fit:cover;display:none}
+.dog-photo{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:5rem;position:relative;overflow:hidden}
+.dog-photo img{width:100%;height:100%;object-fit:cover;display:none;position:absolute;inset:0}
 .dog-photo img.loaded{display:block}
-.dog-photo img.loaded + .dog-emoji{display:none}
-.dog-emoji{position:absolute}
+.dog-photo img.loaded ~ .dog-placeholder{display:none}
+.dog-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.dog-placeholder svg{width:75%;height:75%}
 .dog-info{padding:16px}
 .dog-name{font-size:1.2rem;font-weight:700;color:var(--brown);margin-bottom:4px}
 .dog-breed{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
@@ -93,21 +94,59 @@ footer{text-align:center;padding:32px 20px;font-size:12px;color:var(--muted);bor
     <div class="dogs-grid">
 
       <div class="dog-card">
-        <div class="dog-photo">
+        <div class="dog-photo" style="background:linear-gradient(135deg,#d4b896,#c4a07a)">
           <img src="photos/nala.jpg" alt="Nala" onload="this.classList.add('loaded')">
-          <span class="dog-emoji">🐕</span>
+          <div class="dog-placeholder">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="50" cy="62" rx="28" ry="14" fill="#8B5E3C"/>
+              <rect x="62" y="44" width="10" height="18" rx="5" fill="#8B5E3C"/>
+              <ellipse cx="70" cy="40" rx="10" ry="8" fill="#8B5E3C"/>
+              <ellipse cx="80" cy="42" rx="8" ry="4" fill="#7a5230"/>
+              <ellipse cx="65" cy="33" rx="4" ry="6" fill="#7a5230" transform="rotate(-15 65 33)"/>
+              <circle cx="75" cy="38" r="2" fill="#1a1a1a"/>
+              <circle cx="75.7" cy="37.3" r=".6" fill="#fff"/>
+              <ellipse cx="87" cy="42" rx="2" ry="1.5" fill="#2a1a0a"/>
+              <path d="M22 62 Q10 55 12 45 Q13 40 18 42" stroke="#8B5E3C" stroke-width="4" stroke-linecap="round" fill="none"/>
+              <rect x="34" y="72" width="5" height="16" rx="2.5" fill="#7a5230"/>
+              <rect x="44" y="72" width="5" height="16" rx="2.5" fill="#7a5230"/>
+              <rect x="56" y="72" width="5" height="16" rx="2.5" fill="#7a5230"/>
+              <rect x="66" y="72" width="5" height="16" rx="2.5" fill="#7a5230"/>
+            </svg>
+          </div>
         </div>
         <div class="dog-info">
           <div class="dog-name">Nala</div>
-          <div class="dog-breed">Lab & Whippet mix</div>
+          <div class="dog-breed">Lab &amp; Whippet mix</div>
           <div class="dog-desc">Beautiful and blindingly fast — she'll lap the yard before you blink. Keeps to herself and does things on her own terms.</div>
         </div>
       </div>
 
       <div class="dog-card">
-        <div class="dog-photo">
+        <div class="dog-photo" style="background:linear-gradient(135deg,#e8e8e8,#c8c8c8)">
           <img src="photos/snoopy.jpg" alt="Snoopy" onload="this.classList.add('loaded')">
-          <span class="dog-emoji">🐾</span>
+          <div class="dog-placeholder">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="50" cy="63" rx="24" ry="16" fill="#222"/>
+              <ellipse cx="50" cy="63" rx="12" ry="10" fill="#fff"/>
+              <rect x="43" y="45" width="14" height="18" rx="7" fill="#222"/>
+              <ellipse cx="50" cy="40" rx="16" ry="14" fill="#222"/>
+              <ellipse cx="50" cy="46" rx="9" ry="7" fill="#fff"/>
+              <ellipse cx="50" cy="44" rx="3" ry="2" fill="#111"/>
+              <ellipse cx="37" cy="30" rx="5" ry="8" fill="#111" transform="rotate(15 37 30)"/>
+              <ellipse cx="63" cy="30" rx="5" ry="8" fill="#111" transform="rotate(-15 63 30)"/>
+              <circle cx="43" cy="37" r="3.5" fill="#fff"/>
+              <circle cx="43" cy="37" r="2.2" fill="#4a90d9"/>
+              <circle cx="43.8" cy="36.2" r=".7" fill="#fff"/>
+              <circle cx="57" cy="37" r="3.5" fill="#fff"/>
+              <circle cx="57" cy="37" r="2.2" fill="#7B4F2A"/>
+              <circle cx="57.8" cy="36.2" r=".7" fill="#fff"/>
+              <rect x="32" y="75" width="6" height="14" rx="3" fill="#222"/>
+              <rect x="42" y="75" width="6" height="14" rx="3" fill="#222"/>
+              <rect x="52" y="75" width="6" height="14" rx="3" fill="#222"/>
+              <rect x="62" y="75" width="6" height="14" rx="3" fill="#222"/>
+              <path d="M74 60 Q82 52 80 44" stroke="#222" stroke-width="4" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
         </div>
         <div class="dog-info">
           <div class="dog-name">Snoopy</div>
@@ -117,9 +156,33 @@ footer{text-align:center;padding:32px 20px;font-size:12px;color:var(--muted);bor
       </div>
 
       <div class="dog-card">
-        <div class="dog-photo">
+        <div class="dog-photo" style="background:linear-gradient(135deg,#e0e8f0,#c8d8e8)">
           <img src="photos/belle.jpg" alt="Belle" onload="this.classList.add('loaded')">
-          <span class="dog-emoji">🖤</span>
+          <div class="dog-placeholder">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="50" cy="62" rx="26" ry="15" fill="#1a1a1a"/>
+              <ellipse cx="50" cy="64" rx="13" ry="9" fill="#fff"/>
+              <rect x="43" y="44" width="14" height="18" rx="7" fill="#1a1a1a"/>
+              <ellipse cx="50" cy="52" rx="12" ry="4" fill="#fff"/>
+              <ellipse cx="50" cy="38" rx="15" ry="13" fill="#1a1a1a"/>
+              <ellipse cx="50" cy="40" rx="5" ry="9" fill="#fff"/>
+              <ellipse cx="50" cy="46" rx="7" ry="5" fill="#555"/>
+              <ellipse cx="50" cy="44" rx="2.5" ry="2" fill="#111"/>
+              <ellipse cx="37" cy="28" rx="6" ry="10" fill="#1a1a1a" transform="rotate(20 37 28)"/>
+              <ellipse cx="63" cy="28" rx="6" ry="10" fill="#1a1a1a" transform="rotate(-20 63 28)"/>
+              <circle cx="43" cy="35" r="3.5" fill="#fff"/>
+              <circle cx="43" cy="35" r="2.5" fill="#6B3F1A"/>
+              <circle cx="43.8" cy="34.2" r=".8" fill="#fff"/>
+              <circle cx="57" cy="35" r="3.5" fill="#fff"/>
+              <circle cx="57" cy="35" r="2.5" fill="#6B3F1A"/>
+              <circle cx="57.8" cy="34.2" r=".8" fill="#fff"/>
+              <rect x="31" y="73" width="7" height="15" rx="3.5" fill="#1a1a1a"/>
+              <rect x="42" y="73" width="7" height="15" rx="3.5" fill="#fff"/>
+              <rect x="51" y="73" width="7" height="15" rx="3.5" fill="#1a1a1a"/>
+              <rect x="62" y="73" width="7" height="15" rx="3.5" fill="#fff"/>
+              <path d="M24 62 Q10 50 14 38 Q16 32 22 36" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
         </div>
         <div class="dog-info">
           <div class="dog-name">Belle</div>
@@ -129,9 +192,34 @@ footer{text-align:center;padding:32px 20px;font-size:12px;color:var(--muted);bor
       </div>
 
       <div class="dog-card">
-        <div class="dog-photo">
+        <div class="dog-photo" style="background:linear-gradient(135deg,#f0eeff,#ddd8f8)">
           <img src="photos/chase.jpg" alt="Chase" onload="this.classList.add('loaded')">
-          <span class="dog-emoji">🤍</span>
+          <div class="dog-placeholder">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="65" r="20" fill="#f0f0f0"/>
+              <circle cx="35" cy="68" r="12" fill="#f0f0f0"/>
+              <circle cx="65" cy="68" r="12" fill="#f0f0f0"/>
+              <circle cx="50" cy="78" r="12" fill="#f0f0f0"/>
+              <ellipse cx="50" cy="67" rx="16" ry="13" fill="#fff"/>
+              <ellipse cx="50" cy="50" rx="14" ry="8" fill="#f0f0f0"/>
+              <circle cx="50" cy="38" r="17" fill="#f0f0f0"/>
+              <circle cx="50" cy="38" r="13" fill="#fff"/>
+              <polygon points="38,26 33,14 43,22" fill="#f0f0f0"/>
+              <polygon points="62,26 67,14 57,22" fill="#f0f0f0"/>
+              <polygon points="39,25 35,17 43,22" fill="#ffd6d6"/>
+              <polygon points="61,25 65,17 57,22" fill="#ffd6d6"/>
+              <ellipse cx="50" cy="43" rx="5" ry="3.5" fill="#ebebeb"/>
+              <ellipse cx="50" cy="41.5" rx="2" ry="1.5" fill="#d4a0a0"/>
+              <circle cx="44" cy="36" r="3" fill="#111"/>
+              <circle cx="56" cy="36" r="3" fill="#111"/>
+              <circle cx="44.8" cy="35.2" r="1" fill="#fff"/>
+              <circle cx="56.8" cy="35.2" r="1" fill="#fff"/>
+              <ellipse cx="40" cy="82" rx="5" ry="7" fill="#fff"/>
+              <ellipse cx="60" cy="82" rx="5" ry="7" fill="#fff"/>
+              <path d="M65 60 Q78 48 72 38 Q68 32 63 36" stroke="#f0f0f0" stroke-width="8" stroke-linecap="round" fill="none"/>
+              <path d="M65 60 Q78 48 72 38 Q68 32 63 36" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
         </div>
         <div class="dog-info">
           <div class="dog-name">Chase</div>
