@@ -66,7 +66,9 @@ body{font-family:"Georgia",serif;background:var(--cream);color:var(--text);min-h
 
 /* Softball */
 .softball-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:8px}
-@media(max-width:640px){.softball-grid{grid-template-columns:1fr}}
+.softball-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;margin-top:8px}
+@media(max-width:900px){.softball-grid-3{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.softball-grid{grid-template-columns:1fr}.softball-grid-3{grid-template-columns:1fr}}
 .softball-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
 .softball-card-header{padding:14px 18px 10px;border-bottom:1px solid #f0ede8;display:flex;align-items:center;gap:10px}
 .softball-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:#fff;flex-shrink:0}
@@ -296,9 +298,7 @@ footer{text-align:center;padding:32px 20px;font-size:12px;color:var(--muted);bor
       <div class="divider"></div>
       <p>Schedules, results, and records for the 2025 fall season.</p>
     </div>
-    <div class="softball-grid">
-
-      <!-- Aubrey -->
+    <div class="softball-grid-3">
       <div class="softball-card">
         <div class="softball-card-header">
           <div class="softball-avatar" style="background:linear-gradient(135deg,var(--brown),var(--brown-light))">A</div>
@@ -380,6 +380,32 @@ footer{text-align:center;padding:32px 20px;font-size:12px;color:var(--muted);bor
             <tr><td class="game-date">Oct 24 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Blueberry Bombers</span></td><td class="game-info">NP Field 1<br>11:00 AM–12:30 PM</td><td class="game-result result-pending">–</td></tr>
             <tr><td class="game-date">Oct 24 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Queen</span></td><td class="game-info">NP Field 1<br>12:30–2:00 PM</td><td class="game-result result-pending">–</td></tr>
             <tr><td class="game-date">Oct 31 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Hays</span></td><td class="game-info">NP Field 2<br>12:00–1:30 PM</td><td class="game-result result-pending">–</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mom/Dad Schedule -->
+      <div class="softball-card">
+        <div class="softball-card-header">
+          <div class="softball-avatar" style="background:linear-gradient(135deg,var(--gold),#b8832a)">👨‍👩</div>
+          <div>
+            <div class="softball-name">Mom / Dad</div>
+            <div class="softball-meta">Combined · Arrive → Done</div>
+          </div>
+        </div>
+        <table class="schedule-table">
+          <thead><tr>
+            <th>Date</th><th>Arrive</th><th>Done</th><th>Games</th>
+          </tr></thead>
+          <tbody>
+            <tr><td class="game-date">Aug 29 Sat</td><td style="font-weight:700;color:var(--green)">12:00 PM</td><td style="font-weight:700;color:#c0392b">3:00 PM</td><td style="font-size:11px;color:var(--muted)">A + K</td></tr>
+            <tr><td class="game-date">Sep 5 Sat</td><td style="font-weight:700;color:var(--green)">9:00 AM</td><td style="font-weight:700;color:#c0392b">11:30 AM</td><td style="font-size:11px;color:var(--muted)">A + K</td></tr>
+            <tr><td class="game-date">Sep 12 Sat</td><td style="font-weight:700;color:var(--green)">10:30 AM</td><td style="font-weight:700;color:#c0392b">1:30 PM</td><td style="font-size:11px;color:var(--muted)">A + K×2</td></tr>
+            <tr><td class="game-date">Oct 3 Sat</td><td style="font-weight:700;color:var(--green)">11:00 AM</td><td style="font-weight:700;color:#c0392b">4:30 PM</td><td style="font-size:11px;color:var(--muted)">A + K</td></tr>
+            <tr><td class="game-date">Oct 10 Sat</td><td style="font-weight:700;color:var(--green)">12:00 PM</td><td style="font-weight:700;color:#c0392b">4:30 PM</td><td style="font-size:11px;color:var(--muted)">A×2 + K</td></tr>
+            <tr><td class="game-date">Oct 17 Sat</td><td style="font-weight:700;color:var(--green)">9:00 AM</td><td style="font-weight:700;color:#c0392b">3:00 PM</td><td style="font-size:11px;color:var(--muted)">A + K</td></tr>
+            <tr><td class="game-date">Oct 24 Sat</td><td style="font-weight:700;color:var(--green)">9:00 AM</td><td style="font-weight:700;color:#c0392b">2:00 PM</td><td style="font-size:11px;color:var(--muted)">A×2 + K×2</td></tr>
+            <tr><td class="game-date">Oct 31 Sat</td><td style="font-weight:700;color:var(--green)">9:00 AM</td><td style="font-weight:700;color:#c0392b">1:30 PM</td><td style="font-size:11px;color:var(--muted)">A + K</td></tr>
           </tbody>
         </table>
       </div>
