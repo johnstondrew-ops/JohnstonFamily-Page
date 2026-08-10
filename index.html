@@ -64,6 +64,35 @@ body{font-family:"Georgia",serif;background:var(--cream);color:var(--text);min-h
 .section-head p{font-size:13px;color:var(--muted);line-height:1.6}
 .divider{width:48px;height:3px;background:var(--gold);border-radius:2px;margin:10px 0}
 
+/* Softball */
+.softball-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:8px}
+@media(max-width:640px){.softball-grid{grid-template-columns:1fr}}
+.softball-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.softball-card-header{padding:14px 18px 10px;border-bottom:1px solid #f0ede8;display:flex;align-items:center;gap:10px}
+.softball-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:#fff;flex-shrink:0}
+.softball-name{font-size:1rem;font-weight:700;color:var(--brown)}
+.softball-meta{font-size:11px;color:var(--muted)}
+.softball-record{margin-left:auto;text-align:right}
+.softball-record-val{font-size:1.1rem;font-weight:700;color:var(--green)}
+.softball-record-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.schedule-table{width:100%;border-collapse:collapse;font-size:12px}
+.schedule-table th{font-size:10px;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);font-weight:600;padding:6px 10px;border-bottom:2px solid #f0ede8;text-align:left;background:#fafaf8}
+.schedule-table th.right{text-align:right}
+.schedule-table td{padding:8px 10px;border-bottom:1px solid #f5f3ef;vertical-align:middle}
+.schedule-table tr:last-child td{border-bottom:none}
+.schedule-table tr.past td{color:#aaa}
+.schedule-table tr.today td{background:#fffbf0}
+.game-date{font-weight:700;color:var(--brown);white-space:nowrap}
+.game-opponent{font-weight:600;color:var(--text)}
+.game-info{font-size:11px;color:var(--muted)}
+.game-result{text-align:right;font-weight:700;white-space:nowrap}
+.result-w{color:var(--green)}
+.result-l{color:#c0392b}
+.result-pending{color:#bbb;font-size:11px;font-weight:400}
+.badge-home{background:#e8f4ea;color:var(--green);font-size:9px;padding:1px 5px;border-radius:3px;font-weight:700;letter-spacing:.3px}
+.badge-away{background:#fdecea;color:#c0392b;font-size:9px;padding:1px 5px;border-radius:3px;font-weight:700;letter-spacing:.3px}
+.badge-practice{background:#eef2fb;color:#3a6bc4;font-size:9px;padding:1px 5px;border-radius:3px;font-weight:700;letter-spacing:.3px}
+
 /* Footer */
 footer{text-align:center;padding:32px 20px;font-size:12px;color:var(--muted);border-top:1px solid #e8d9c5;background:var(--warm)}
 </style>
@@ -79,6 +108,7 @@ footer{text-align:center;padding:32px 20px;font-size:12px;color:var(--muted);bor
 <div class="nav-strip">
   <button class="nav-btn active" onclick="switchTab('dogs')">🐶 The Dogs</button>
   <button class="nav-btn" onclick="switchTab('girls')">👧 The Girls</button>
+  <button class="nav-btn" onclick="switchTab('softball')">🥎 Softball</button>
   <button class="nav-btn" onclick="switchTab('gallery')">📸 Gallery</button>
 </div>
 
@@ -254,6 +284,84 @@ footer{text-align:center;padding:32px 20px;font-size:12px;color:var(--muted);bor
           <div class="girl-name">Kinsley</div>
           <div class="girl-desc">7 years old, blonde hair, and cute as a button. Kinsley plays softball and swims just like her big sister, and at home she runs a full classroom — her dolls are the students and she is very much in charge. She is completely obsessed with her dad and will roughhouse with him any chance she gets. Oh, and the dogs. Always the dogs.</div>
         </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Softball tab -->
+  <div class="section" id="section-softball">
+    <div class="section-head">
+      <h2>Softball</h2>
+      <div class="divider"></div>
+      <p>Schedules, results, and records for the 2025 fall season.</p>
+    </div>
+    <div class="softball-grid">
+
+      <!-- Aubrey -->
+      <div class="softball-card">
+        <div class="softball-card-header">
+          <div class="softball-avatar" style="background:linear-gradient(135deg,var(--brown),var(--brown-light))">A</div>
+          <div>
+            <div class="softball-name">Aubrey</div>
+            <div class="softball-meta">10U · NP Fields</div>
+          </div>
+          <div class="softball-record">
+            <div class="softball-record-val" id="aubrey-record">0-0</div>
+            <div class="softball-record-lbl">Record</div>
+          </div>
+        </div>
+        <table class="schedule-table">
+          <thead><tr>
+            <th>Date</th><th>Opponent</th><th>Field</th><th class="right">Result</th>
+          </tr></thead>
+          <tbody>
+            <tr><td class="game-date">Aug 8 Sat</td><td><span class="badge-practice">PRACTICE</span> <span class="game-opponent">First Practice</span></td><td class="game-info">NP Field 1<br>12:00–1:30 PM</td><td class="game-result result-pending">—</td></tr>
+            <tr><td class="game-date">Aug 12 Wed</td><td><span class="badge-practice">PRACTICE</span> <span class="game-opponent">Practice</span></td><td class="game-info">NP Field 2<br>6:00–7:30 PM</td><td class="game-result result-pending">—</td></tr>
+            <tr><td class="game-date">Aug 29 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Daugette – Diamond Di…</span></td><td class="game-info">NP Field 3<br>12:00–1:30 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Sep 5 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Cavallaro – Blizzards</span></td><td class="game-info">NP Field 3<br>10:00–11:30 AM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Sep 12 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Quinones – Navy Knockout</span></td><td class="game-info">NP Field 1<br>11:00 AM–12:30 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 3 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Escalante</span></td><td class="game-info">NP Field 1<br>11:00 AM–12:30 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 10 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Riggs – Gold Crushers</span></td><td class="game-info">NP Field 3<br>12:00–1:30 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 10 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Walters</span></td><td class="game-info">NP Field 3<br>1:30–3:00 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 17 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Renfro – Black Ice</span></td><td class="game-info">NP Field 3<br>1:30–3:00 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 24 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Waddell – Lava Legends</span></td><td class="game-info">NP Field 3<br>9:00–10:30 AM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 24 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Etchart</span></td><td class="game-info">NP Field 3<br>10:30 AM–12:00 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 31 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Miles</span></td><td class="game-info">NP Field 3<br>9:00–10:30 AM</td><td class="game-result result-pending">–</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Kinsley -->
+      <div class="softball-card">
+        <div class="softball-card-header">
+          <div class="softball-avatar" style="background:linear-gradient(135deg,var(--green),#3a6b4a)">K</div>
+          <div>
+            <div class="softball-name">Kinsley</div>
+            <div class="softball-meta">8U · NP Fields</div>
+          </div>
+          <div class="softball-record">
+            <div class="softball-record-val" id="kinsley-record">0-0</div>
+            <div class="softball-record-lbl">Record</div>
+          </div>
+        </div>
+        <table class="schedule-table">
+          <thead><tr>
+            <th>Date</th><th>Opponent</th><th>Field</th><th class="right">Result</th>
+          </tr></thead>
+          <tbody>
+            <tr><td class="game-date">Aug 29 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Cherry Bombs</span></td><td class="game-info">NP Field 1<br>1:30–3:00 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Sep 5 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Wilkens</span></td><td class="game-info">NP Field 2<br>9:00–10:30 AM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Sep 12 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Blueberry Bombers</span></td><td class="game-info">NP Field 2<br>10:30 AM–12:00 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Sep 12 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Hays</span></td><td class="game-info">NP Field 2<br>12:00–1:30 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 3 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Cheetas</span></td><td class="game-info">NP Field 2<br>3:00–4:30 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 10 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Queen</span></td><td class="game-info">NP Field 2<br>3:00–4:30 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 17 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Gill</span></td><td class="game-info">NP Field 2<br>9:00–10:30 AM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 24 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Blueberry Bombers</span></td><td class="game-info">NP Field 1<br>11:00 AM–12:30 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 24 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Queen</span></td><td class="game-info">NP Field 1<br>12:30–2:00 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Oct 31 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Hays</span></td><td class="game-info">NP Field 2<br>12:00–1:30 PM</td><td class="game-result result-pending">–</td></tr>
+          </tbody>
+        </table>
       </div>
 
     </div>
