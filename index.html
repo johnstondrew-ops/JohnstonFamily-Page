@@ -91,6 +91,9 @@ body{font-family:"Georgia",serif;background:var(--cream);color:var(--text);min-h
 .result-w{color:var(--green)}
 .result-l{color:#c0392b}
 .result-pending{color:#bbb;font-size:11px;font-weight:400}
+.result-win{color:#27ae60}
+.result-loss{color:#c0392b}
+.result-tie{color:#888}
 .badge-home{background:#e8f4ea;color:var(--green);font-size:9px;padding:1px 5px;border-radius:3px;font-weight:700;letter-spacing:.3px}
 .badge-away{background:#fdecea;color:#c0392b;font-size:9px;padding:1px 5px;border-radius:3px;font-weight:700;letter-spacing:.3px}
 .badge-practice{background:#eef2fb;color:#3a6bc4;font-size:9px;padding:1px 5px;border-radius:3px;font-weight:700;letter-spacing:.3px}
@@ -370,7 +373,7 @@ footer{text-align:center;padding:32px 20px;font-size:12px;color:var(--muted);bor
             <th>Date</th><th>Opponent</th><th>Field</th><th class="right">Result</th>
           </tr></thead>
           <tbody id="kinsley-games">
-            <tr><td class="game-date">Aug 29 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Cherry Bombs</span></td><td class="game-info">NP Field 1<br>1:30–3:00 PM</td><td class="game-result result-pending">–</td></tr>
+            <tr><td class="game-date">Aug 29 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Cherry Bombs</span></td><td class="game-info">NP Field 1<br>1:30–3:00 PM</td><td class="game-result result-loss">L 7–13</td></tr>
             <tr><td class="game-date">Sep 5 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Wilkens</span></td><td class="game-info">NP Field 2<br>9:00–10:30 AM</td><td class="game-result result-pending">–</td></tr>
             <tr><td class="game-date">Sep 12 Sat</td><td><span class="badge-away">AWAY</span> <span class="game-opponent">Blueberry Bombers</span></td><td class="game-info">NP Field 2<br>10:30 AM–12:00 PM</td><td class="game-result result-pending">–</td></tr>
             <tr><td class="game-date">Sep 12 Sat</td><td><span class="badge-home">HOME</span> <span class="game-opponent">Hays</span></td><td class="game-info">NP Field 2<br>12:00–1:30 PM</td><td class="game-result result-pending">–</td></tr>
@@ -578,10 +581,9 @@ function calcRecord(tableBodyId, wId, lId, tId) {
   rows.forEach(row => {
     const cell = row.querySelector('.game-result');
     if (!cell) return;
-    const txt = cell.textContent.trim().toUpperCase();
-    if (txt === 'W') w++;
-    else if (txt === 'L') l++;
-    else if (txt === 'T') t++;
+    if (cell.classList.contains('result-win'))  w++;
+    else if (cell.classList.contains('result-loss')) l++;
+    else if (cell.classList.contains('result-tie'))  t++;
   });
   document.getElementById(wId).textContent = w;
   document.getElementById(lId).textContent = l;
