@@ -203,6 +203,38 @@
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
+  /* BOARD TAB */
+  .board-page { padding: 14px 16px; max-width: 1400px; margin: 0 auto; }
+  .board-controls { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+  .board-controls input { padding: 7px 12px; border: 1px solid var(--border); border-radius: 5px; font-size: 13px; width: 200px; outline: none; }
+  .board-controls input:focus { border-color: var(--blue); }
+  .board-table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 13px; }
+  .board-table thead th { padding: 9px 12px; background: var(--blue); color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; text-align: left; cursor: pointer; user-select: none; white-space: nowrap; }
+  .board-table thead th:hover { background: var(--blue-dark); }
+  .board-table thead th.sorted-asc::after { content: ' ↑'; }
+  .board-table thead th.sorted-desc::after { content: ' ↓'; }
+  .board-table thead th.r { text-align: right; }
+  .board-table tbody td { padding: 8px 12px; border-bottom: 1px solid #F3F4F6; vertical-align: middle; }
+  .board-table tbody td.r { text-align: right; }
+  .board-table tbody tr:last-child td { border-bottom: none; }
+  .board-table tbody tr.available:hover td { background: #EFF6FF; cursor: pointer; }
+  .board-table tbody tr.kept-row td { opacity: 0.38; }
+  .board-table tbody tr.drafted-row td { opacity: 0.32; text-decoration: line-through; }
+  .board-table tbody tr.drafted-row td.no-strike { text-decoration: none; }
+  .board-rank { font-size: 11px; font-weight: 700; color: var(--muted); width: 32px; text-align: right; }
+  .board-name { font-weight: 700; font-size: 14px; }
+  .board-status-tag { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+  .tag-kept { background: #D1FAE5; color: #065F46; }
+  .tag-mine { background: #DBEAFE; color: #1D4ED8; }
+  .tag-drafted { background: #F3F4F6; color: #6B7280; }
+  .board-nominate-btn { padding: 5px 14px; background: var(--blue); color: #fff; border: none; border-radius: 4px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  .board-nominate-btn:hover { background: var(--blue-dark); }
+  .board-nominate-btn:disabled { background: #E5E7EB; color: #9CA3AF; cursor: default; }
+  .board-summary { display: flex; gap: 16px; margin-bottom: 10px; flex-wrap: wrap; }
+  .board-sum-item { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 8px 14px; font-size: 12px; }
+  .board-sum-item .bsv { font-size: 20px; font-weight: 800; color: var(--blue); }
+  .board-sum-item .bsl { font-size: 10px; color: var(--muted); text-transform: uppercase; }
+
   /* CHEAT SHEET */
   .cheatsheet-page { padding: 14px 16px; max-width: 1600px; margin: 0 auto; }
   .cs-controls { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
@@ -261,6 +293,7 @@
 
 <div class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('tracker')">📋 Live Tracker</button>
+  <button class="tab-btn" onclick="switchTab('board')">🎯 Draft Board</button>
   <button class="tab-btn" onclick="switchTab('myteam')">⭐ My Team</button>
   <button class="tab-btn" onclick="switchTab('cheatsheet')">💰 Auction Cheat Sheet</button>
 </div>
@@ -378,7 +411,7 @@ function getTeamMaxBid(team) { const filled = team.keepers.length + state.picks.
 function getBudgetClass(b, max) { const p = b/max; return p > 0.5 ? 'budget-high' : p > 0.25 ? 'budget-mid' : 'budget-low'; }
 function getPositionNeeds() { const n = { QB:0, RB:0, WR:0, TE:0, FLEX:0, DST:0, K:0, BN:0 }; state.roster.forEach(s => { if (!s.player) n[s.pos] = (n[s.pos]||0)+1; }); return n; }
 
-function render() { renderHeader(); renderMaxBidBar(); renderTeams(); renderRoster(); renderPosNeeds(); renderDraftLog(); renderAlerts(); populateTeamDropdown(); filterCheatSheet(); renderMyTeam(); }
+function render() { renderHeader(); renderMaxBidBar(); renderTeams(); renderRoster(); renderPosNeeds(); renderDraftLog(); renderAlerts(); populateTeamDropdown(); filterCheatSheet(); renderMyTeam(); renderBoard(); }
 
 function renderHeader() {
   const myTeam = state.teams.find(t => t.isMe);
@@ -617,6 +650,7 @@ function switchTab(tab) {
   document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
   if (tab==='cheatsheet') filterCheatSheet();
   if (tab==='myteam') renderMyTeam();
+  if (tab==='board') renderBoard();
 }
 
 // CHEAT SHEET
@@ -784,6 +818,108 @@ function filterCheatSheet() {
 
 function prefillPlayer(name, pos) { switchTab('tracker'); document.getElementById('nom-player').value=name; document.getElementById('nom-pos').value=pos; updateAnalysis(); document.getElementById('nom-player').focus(); }
 
+// DRAFT BOARD TAB
+let boardCurrentPos = 'ALL';
+let boardSortKey = 'val';
+let boardSortDir = -1; // -1 = desc
+
+function buildBoardPlayers() {
+  const all = [];
+  Object.entries(CHEAT_SHEET).forEach(([pos, data]) => {
+    data.players.forEach((p, i) => {
+      all.push({ name: p.name, pos, nfl: p.nfl, val: p.val, tier: p.tier, note: p.note, kept: !!p.kept });
+    });
+  });
+  return all;
+}
+
+function boardFilter(pos, btn) {
+  boardCurrentPos = pos;
+  document.querySelectorAll('.board-controls .cs-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderBoard();
+}
+
+function boardSort(key) {
+  if (boardSortKey === key) boardSortDir *= -1;
+  else { boardSortKey = key; boardSortDir = key === 'val' ? -1 : 1; }
+  document.querySelectorAll('.board-table thead th').forEach(th => { th.classList.remove('sorted-asc','sorted-desc'); });
+  const thId = document.getElementById('board-th-val');
+  const thMap = { val: 'board-th-val' };
+  renderBoard();
+}
+
+function renderBoard() {
+  const tbody = document.getElementById('board-tbody'); if (!tbody) return;
+  const search = (document.getElementById('board-search')?.value || '').toLowerCase();
+  const hideGone = document.getElementById('board-hide-gone')?.checked;
+  let players = buildBoardPlayers();
+
+  if (boardCurrentPos !== 'ALL') players = players.filter(p => p.pos === boardCurrentPos);
+  if (search) players = players.filter(p => p.name.toLowerCase().includes(search) || p.nfl.toLowerCase().includes(search) || p.pos.toLowerCase().includes(search));
+  if (hideGone) players = players.filter(p => !p.kept && !state.picks.some(pk => pk.player.toLowerCase() === p.name.toLowerCase()));
+
+  players.sort((a, b) => {
+    let av = a[boardSortKey], bv = b[boardSortKey];
+    if (boardSortKey === 'rank') { av = a.val; bv = b.val; return bv - av; }
+    if (typeof av === 'number') return (av - bv) * boardSortDir;
+    return String(av).localeCompare(String(bv)) * boardSortDir;
+  });
+
+  // Sort headers
+  document.querySelectorAll('.board-table thead th').forEach(th => { th.classList.remove('sorted-asc','sorted-desc'); });
+  const colMap = { rank: 0, name: 1, pos: 2, nfl: 3, val: 4 };
+  if (colMap[boardSortKey] !== undefined) {
+    const ths = document.querySelectorAll('.board-table thead th');
+    if (ths[colMap[boardSortKey]]) ths[colMap[boardSortKey]].classList.add(boardSortDir === 1 ? 'sorted-asc' : 'sorted-desc');
+  }
+
+  // Summary counts
+  const avail = players.filter(p => !p.kept && !state.picks.some(pk => pk.player.toLowerCase() === p.name.toLowerCase()));
+  const kept = players.filter(p => p.kept);
+  const drafted = players.filter(p => !p.kept && state.picks.some(pk => pk.player.toLowerCase() === p.name.toLowerCase()));
+  document.getElementById('board-summary').innerHTML =
+    `<div class="board-sum-item"><div class="bsv">${avail.length}</div><div class="bsl">Available</div></div>` +
+    `<div class="board-sum-item"><div class="bsv">${kept.length}</div><div class="bsl">Kept</div></div>` +
+    `<div class="board-sum-item"><div class="bsv">${drafted.length}</div><div class="bsl">Drafted</div></div>` +
+    `<div class="board-sum-item"><div class="bsv" style="color:var(--green);">$${getMaxBid()}</div><div class="bsl">Your Max Bid</div></div>`;
+
+  let rank = 0; let lastVal = null;
+  tbody.innerHTML = players.map(p => {
+    const isKept = p.kept;
+    const isDrafted = !isKept && state.picks.some(pk => pk.player.toLowerCase() === p.name.toLowerCase());
+    const isMine = state.roster.some(s => s.player && s.player.toLowerCase() === p.name.toLowerCase());
+    const isAvailable = !isKept && !isDrafted;
+
+    if (!isDrafted && !isKept) rank++;
+
+    let rowClass = isKept ? 'kept-row' : isDrafted ? 'drafted-row' : 'available';
+    let statusTag = '';
+    if (isMine) statusTag = '<span class="board-status-tag tag-mine">YOURS</span>';
+    else if (isKept) statusTag = '<span class="board-status-tag tag-kept">KEPT</span>';
+    else if (isDrafted) statusTag = '<span class="board-status-tag tag-drafted">DRAFTED</span>';
+
+    const valBadge = `<span class="val-badge ${getTierClass(p.tier)}">$${p.val}</span>`;
+    const btn = isAvailable
+      ? `<button class="board-nominate-btn" onclick="event.stopPropagation();prefillPlayer('${p.name.replace(/'/g,"\\'")}','${p.pos}')">Nominate →</button>`
+      : `<button class="board-nominate-btn" disabled>${isKept?'Kept':'Drafted'}</button>`;
+
+    const rowClick = isAvailable ? `onclick="prefillPlayer('${p.name.replace(/'/g,"\\'")}','${p.pos}')"` : '';
+
+    return `<tr class="${rowClass}" ${rowClick}>
+      <td class="board-rank r no-strike">${isAvailable ? rank : '—'}</td>
+      <td><span class="board-name">${p.name}</span>${statusTag}</td>
+      <td><span class="slot-pos-pill ${pillClass(p.pos)}">${p.pos}</span></td>
+      <td style="color:var(--muted);font-size:12px;">${p.nfl}</td>
+      <td class="r no-strike">${valBadge}</td>
+      <td style="font-size:11px;color:var(--muted);max-width:220px;">${p.note}</td>
+      <td class="no-strike">${btn}</td>
+    </tr>`;
+  }).join('');
+
+  if (!players.length) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:24px;">No players match filter</td></tr>';
+}
+
 initKeepers();
 render();
 </script>
@@ -815,7 +951,39 @@ render();
   </div>
 </div>
 
-<div id="tab-cheatsheet" class="tab-panel">
+<div id="tab-board" class="tab-panel">
+  <div class="board-page">
+    <div class="board-controls">
+      <input type="text" id="board-search" placeholder="Search player..." oninput="renderBoard()">
+      <button class="cs-filter-btn active" id="bf-ALL" onclick="boardFilter('ALL',this)">All</button>
+      <button class="cs-filter-btn" id="bf-QB" onclick="boardFilter('QB',this)">QB</button>
+      <button class="cs-filter-btn" id="bf-RB" onclick="boardFilter('RB',this)">RB</button>
+      <button class="cs-filter-btn" id="bf-WR" onclick="boardFilter('WR',this)">WR</button>
+      <button class="cs-filter-btn" id="bf-TE" onclick="boardFilter('TE',this)">TE</button>
+      <button class="cs-filter-btn" id="bf-K" onclick="boardFilter('K',this)">K</button>
+      <button class="cs-filter-btn" id="bf-DST" onclick="boardFilter('DST',this)">D/ST</button>
+      <label style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--label);margin-left:4px;"><input type="checkbox" id="board-hide-gone" onchange="renderBoard()"> Hide drafted/kept</label>
+      <span style="font-size:11px;color:var(--muted);margin-left:auto;">Click any available player to nominate</span>
+    </div>
+    <div class="board-summary" id="board-summary"></div>
+    <table class="board-table" id="board-table">
+      <thead>
+        <tr>
+          <th class="r" onclick="boardSort('rank')">#</th>
+          <th onclick="boardSort('name')">Player</th>
+          <th onclick="boardSort('pos')">Pos</th>
+          <th onclick="boardSort('nfl')">Team</th>
+          <th class="r sorted-desc" id="board-th-val" onclick="boardSort('val')">Value</th>
+          <th>Notes</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="board-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+
   <div class="cheatsheet-page">
     <div class="cs-controls">
       <input type="text" id="cs-search" placeholder="Search player..." oninput="filterCheatSheet()">
